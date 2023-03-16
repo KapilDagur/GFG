@@ -2,17 +2,39 @@
 using namespace std;
 
 class Solution{
-public:
-    
+    public:
     int longestCommonSubstr (string S1, string S2, int n, int m)
     {
-        // your code here
-        int max_lcs = 0, max = 0,k;
-        for(int i = 0; i < n; i++){
-            k = 0;
-            for(int j = 0; j < m; j++){
-                
+        int t[n+1][m+1];
+        
+        for(int i=0;i<n+1;i++){
+            for(int j=0;j<m+1;j++){
+                if(i == 0 || j == 0) t[i][j] = 0;
             }
         }
+        
+        int maxi = 0;
+        
+        for(int i=1;i<n+1;i++){
+            for(int j=1;j<m+1;j++){
+                if(S1[i-1] == S2[j-1]){
+                    t[i][j] = 1 + t[i-1][j-1];
+                    maxi = max(maxi, t[i][j]);
+                }
+                else{
+                    t[i][j] = 0;
+                }
+            }
+        }
+        return maxi;
     }
 };
+
+int main(int argc, char const *argv[])
+{
+    string S1 = "ABCDGH", S2 = "ACDGHR";
+    int n = 6, m = 6;
+    Solution s;
+    cout<<s.longestCommonSubstr(S1,S2,n,m);
+    return 0;
+}

@@ -9,27 +9,51 @@ class Solution{
     // arr[]: Input Array
     // N : Size of the Array arr[]
     // Function to count inversions in the array.
+    
+    void merge(long long arr[], long long st, long long end, long long &count){
+        vector<long long int>v;
+        long long mid = (st+end)/2, i = st, j = mid+1;
+
+        while (i <= mid and j <= end)
+        {
+            if (arr[i] <= arr[j])
+            {
+                v.push_back(arr[i++]);
+            }
+            else
+            {
+                count += mid - i + 1;
+                v.push_back(arr[j++]);
+            }
+        }
+
+        while (i <= mid)
+            v.push_back(arr[i++]);
+
+        while (j <= end)
+            v.push_back(arr[j++]);
+    
+        for (long long k = st; k <= end; k++)
+        {
+            arr[k] = v[k-st];
+        }
+    }
+    void mergeSort(long long arr[], long long st, long long end, long long int &count){
+        if(st >= end) return;
+
+        long long mid = (st+end)/2;
+
+        mergeSort(arr, st, mid, count);
+        mergeSort(arr, mid+1, end, count);
+        merge(arr, st, end, count);
+    }
+    
     long long int inversionCount(long long arr[], long long N)
     {
         // Your Code Here
-        int result;
-    }
-
-    long long int merge(long long arr[], long long int p, long long int q, long long int r, int& result){
-        long long int left_arr_len(r - p + 1);
-        long long int right_arr_len(q - r);
-        long long int L[left_arr_len];
-        long long int R[right_arr_len];
-
-    }
-
-    long long int mergeSort(long long arr[], long long int p, long long int r,int& result){
-        if(p < r){
-            int q = p + (r - q) / 2;
-            mergeSort(arr,p,q,result);
-            mergeSort(arr,q+1,r,result);
-            merge(arr,p,q,r,result);
-        }
+        long long int count = 0;
+        mergeSort(arr,0,N-1,count);
+        return count;
     }
 
 };
